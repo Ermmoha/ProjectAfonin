@@ -19,8 +19,8 @@ public class OrdersForm : Form
     public OrdersForm(UserSession session)
     {
         _session = session;
-        InitializeComponent();
         UiTheme.Apply(this);
+        InitializeComponent();
         UiTheme.StyleHeader(headerPanel);
         UiTheme.StyleAccent(addButton);
         UiTheme.StyleAccent(editButton);
@@ -32,7 +32,7 @@ public class OrdersForm : Form
 
     private void InitializeComponent()
     {
-        Text = "ООО «Обувь» — заказы";
+        Text = "ShoeStore";
         StartPosition = FormStartPosition.CenterParent;
         ClientSize = new Size(1000, 640);
 

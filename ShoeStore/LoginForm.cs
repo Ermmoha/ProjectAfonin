@@ -4,8 +4,8 @@ public partial class LoginForm : Form
 {
     public LoginForm()
     {
-        InitializeComponent();
         UiTheme.Apply(this);
+        InitializeComponent();
         UiTheme.StyleHeader(headerPanel);
         UiTheme.StyleAccent(loginButton);
         UiTheme.StyleAccent(guestButton);

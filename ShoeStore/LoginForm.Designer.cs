@@ -95,7 +95,7 @@ partial class LoginForm
         Controls.Add(loginButton);
         Controls.Add(guestButton);
         Controls.Add(errorLabel);
-        Text = "ООО «Обувь» — вход";
+        Text = "ShoeStore";
         StartPosition = FormStartPosition.CenterScreen;
 
         ResumeLayout(false);

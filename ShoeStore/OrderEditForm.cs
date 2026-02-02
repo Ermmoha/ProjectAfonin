@@ -24,8 +24,8 @@ public class OrderEditForm : Form
     {
         _orderNumber = orderNumber;
         _isEdit = orderNumber.HasValue;
-        InitializeComponent();
         UiTheme.Apply(this);
+        InitializeComponent();
         UiTheme.StyleAccent(saveButton);
         UiTheme.StyleAccent(cancelButton);
         LoadCombos();
@@ -33,13 +33,13 @@ public class OrderEditForm : Form
 
         if (_isEdit)
         {
-            Text = "Редактирование заказа";
+            Text = "ShoeStore";
             orderNumberTextBox.ReadOnly = true;
             LoadOrder(orderNumber!.Value);
         }
         else
         {
-            Text = "Добавление заказа";
+            Text = "ShoeStore";
         }
     }
 
@@ -94,10 +94,18 @@ public class OrderEditForm : Form
         Controls.Add(itemsLabel);
         top += rowHeight;
 
+        var buttonsTop = ClientSize.Height - 70;
+        var gridHeight = buttonsTop - top - 20;
+        if (gridHeight < 200)
+        {
+            gridHeight = 200;
+            buttonsTop = top + gridHeight + 20;
+            ClientSize = new Size(ClientSize.Width, buttonsTop + 70);
+        }
         itemsGrid = new DataGridView
         {
             Location = new Point(left, top),
-            Size = new Size(840, 300),
+            Size = new Size(840, gridHeight),
             AllowUserToAddRows = true,
             AllowUserToDeleteRows = true,
             AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
@@ -118,8 +126,8 @@ public class OrderEditForm : Form
         itemsGrid.Columns.Add(qtyCol);
         Controls.Add(itemsGrid);
 
-        saveButton = new Button { Text = "Сохранить", Location = new Point(left + 200, 580), Size = new Size(160, 36) };
-        cancelButton = new Button { Text = "Отмена", Location = new Point(left + 380, 580), Size = new Size(160, 36) };
+        saveButton = new Button { Text = "Сохранить", Location = new Point(left + 200, buttonsTop), Size = new Size(160, 36) };
+        cancelButton = new Button { Text = "Отмена", Location = new Point(left + 380, buttonsTop), Size = new Size(160, 36) };
         saveButton.Click += OnSave;
         cancelButton.Click += (_, _) => DialogResult = DialogResult.Cancel;
         Controls.Add(saveButton);

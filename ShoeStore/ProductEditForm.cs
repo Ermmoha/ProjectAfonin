@@ -27,21 +27,21 @@ public class ProductEditForm : Form
     {
         _article = article;
         _isEdit = !string.IsNullOrWhiteSpace(article);
-        InitializeComponent();
         UiTheme.Apply(this);
+        InitializeComponent();
         UiTheme.StyleAccent(saveButton);
         UiTheme.StyleAccent(cancelButton);
         LoadCombos();
 
         if (_isEdit)
         {
-            Text = "Редактирование товара";
+            Text = "ShoeStore";
             articleTextBox.ReadOnly = true;
             LoadProduct(article!);
         }
         else
         {
-            Text = "Добавление товара";
+            Text = "ShoeStore";
         }
     }
 

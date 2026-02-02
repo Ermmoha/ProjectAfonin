@@ -36,8 +36,8 @@ public class ProductsForm : Form
     public ProductsForm(UserSession session)
     {
         _session = session;
-        InitializeComponent();
         UiTheme.Apply(this);
+        InitializeComponent();
         UiTheme.StyleHeader(headerPanel);
         UiTheme.StyleAccent(applyFilterButton);
         UiTheme.StyleAccent(clearFilterButton);
@@ -54,7 +54,7 @@ public class ProductsForm : Form
 
     private void InitializeComponent()
     {
-        Text = "ООО «Обувь» — товары";
+        Text = "ShoeStore";
         StartPosition = FormStartPosition.CenterScreen;
         ClientSize = new Size(1200, 720);
 
@@ -94,49 +94,84 @@ public class ProductsForm : Form
         headerPanel.Controls.Add(ordersButton);
         headerPanel.Controls.Add(refreshButton);
 
-        filterPanel = new Panel { Dock = DockStyle.Top, Height = 90 };
+        filterPanel = new Panel
+        {
+            Dock = DockStyle.Top,
+            Height = 160,
+            Padding = new Padding(16, 8, 16, 8)
+        };
 
-        var searchLabel = new Label { Text = "Поиск", AutoSize = true, Location = new Point(20, 12) };
-        searchTextBox = new TextBox { Location = new Point(80, 8), Width = 200 };
+        var filterLayout = new TableLayoutPanel
+        {
+            Dock = DockStyle.Fill,
+            ColumnCount = 1,
+            RowCount = 2
+        };
+        filterLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+        filterLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
 
-        var categoryLabel = new Label { Text = "Категория", AutoSize = true, Location = new Point(300, 12) };
-        categoryComboBox = new ComboBox { Location = new Point(380, 8), Width = 180, DropDownStyle = ComboBoxStyle.DropDownList };
+        var row1 = new FlowLayoutPanel
+        {
+            Dock = DockStyle.Fill,
+            FlowDirection = FlowDirection.LeftToRight,
+            WrapContents = false,
+            AutoSize = true,
+            AutoSizeMode = AutoSizeMode.GrowAndShrink,
+            Margin = new Padding(0, 0, 0, 10)
+        };
 
-        var manufacturerLabel = new Label { Text = "Производитель", AutoSize = true, Location = new Point(580, 12) };
-        manufacturerComboBox = new ComboBox { Location = new Point(700, 8), Width = 180, DropDownStyle = ComboBoxStyle.DropDownList };
+        var row2 = new FlowLayoutPanel
+        {
+            Dock = DockStyle.Fill,
+            FlowDirection = FlowDirection.LeftToRight,
+            WrapContents = false,
+            AutoSize = true,
+            AutoSizeMode = AutoSizeMode.GrowAndShrink,
+            Margin = new Padding(0)
+        };
 
-        var supplierLabel = new Label { Text = "Поставщик", AutoSize = true, Location = new Point(20, 50) };
-        supplierComboBox = new ComboBox { Location = new Point(80, 46), Width = 200, DropDownStyle = ComboBoxStyle.DropDownList };
+        searchTextBox = new TextBox();
+        row1.Controls.Add(MakeFilterGroup("Поиск", searchTextBox, 230));
 
-        var priceFromLabel = new Label { Text = "Цена от", AutoSize = true, Location = new Point(300, 50) };
-        priceFrom = new NumericUpDown { Location = new Point(370, 46), Width = 90, Maximum = 1000000, DecimalPlaces = 0 };
-        var priceToLabel = new Label { Text = "до", AutoSize = true, Location = new Point(470, 50) };
-        priceTo = new NumericUpDown { Location = new Point(500, 46), Width = 90, Maximum = 1000000, DecimalPlaces = 0 };
+        categoryComboBox = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList };
+        row1.Controls.Add(MakeFilterGroup("Категория", categoryComboBox, 210));
 
-        applyFilterButton = new Button { Text = "Применить", Location = new Point(700, 42), Size = new Size(110, 32) };
-        clearFilterButton = new Button { Text = "Сбросить", Location = new Point(820, 42), Size = new Size(110, 32) };
+        manufacturerComboBox = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList };
+        row1.Controls.Add(MakeFilterGroup("Производитель", manufacturerComboBox, 240));
+
+        supplierComboBox = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList };
+        row2.Controls.Add(MakeFilterGroup("Поставщик", supplierComboBox, 230));
+
+        priceFrom = new NumericUpDown { Maximum = 1000000, DecimalPlaces = 0 };
+        row2.Controls.Add(MakeFilterGroup("Цена от", priceFrom, 110));
+
+        priceTo = new NumericUpDown { Maximum = 1000000, DecimalPlaces = 0 };
+        row2.Controls.Add(MakeFilterGroup("до", priceTo, 110));
+
+        applyFilterButton = new Button { Text = "Применить", Size = new Size(120, 32) };
+        clearFilterButton = new Button { Text = "Сбросить", Size = new Size(120, 32) };
+        var buttonsPanel = new FlowLayoutPanel
+        {
+            FlowDirection = FlowDirection.LeftToRight,
+            WrapContents = false,
+            AutoSize = true,
+            AutoSizeMode = AutoSizeMode.GrowAndShrink,
+            Margin = new Padding(0)
+        };
+        buttonsPanel.Controls.Add(applyFilterButton);
+        buttonsPanel.Controls.Add(clearFilterButton);
+        row2.Controls.Add(MakeFilterGroup(" ", buttonsPanel, 260, rightMargin: 0));
         applyFilterButton.Click += (_, _) => LoadProducts();
         clearFilterButton.Click += (_, _) => ClearFilters();
 
-        filterPanel.Controls.Add(searchLabel);
-        filterPanel.Controls.Add(searchTextBox);
-        filterPanel.Controls.Add(categoryLabel);
-        filterPanel.Controls.Add(categoryComboBox);
-        filterPanel.Controls.Add(manufacturerLabel);
-        filterPanel.Controls.Add(manufacturerComboBox);
-        filterPanel.Controls.Add(supplierLabel);
-        filterPanel.Controls.Add(supplierComboBox);
-        filterPanel.Controls.Add(priceFromLabel);
-        filterPanel.Controls.Add(priceFrom);
-        filterPanel.Controls.Add(priceToLabel);
-        filterPanel.Controls.Add(priceTo);
-        filterPanel.Controls.Add(applyFilterButton);
-        filterPanel.Controls.Add(clearFilterButton);
+        filterLayout.Controls.Add(row1, 0, 0);
+        filterLayout.Controls.Add(row2, 0, 1);
+        filterPanel.Controls.Add(filterLayout);
 
-        actionPanel = new Panel { Dock = DockStyle.Top, Height = 50 };
-        addButton = new Button { Text = "Добавить", Location = new Point(20, 10), Size = new Size(110, 30) };
-        editButton = new Button { Text = "Редактировать", Location = new Point(140, 10), Size = new Size(140, 30) };
-        deleteButton = new Button { Text = "Удалить", Location = new Point(290, 10), Size = new Size(110, 30) };
+        actionPanel = new Panel { Dock = DockStyle.Top, Height = 46 };
+        addButton = new Button { Text = "Добавить", Location = new Point(20, 6), Size = new Size(110, 30) };
+        editButton = new Button { Text = "Редактировать", Location = new Point(140, 6), Size = new Size(140, 30) };
+        deleteButton = new Button { Text = "Удалить", Location = new Point(290, 6), Size = new Size(110, 30) };
         addButton.Click += OnAddProduct;
         editButton.Click += OnEditProduct;
         deleteButton.Click += OnDeleteProduct;
@@ -165,6 +200,7 @@ public class ProductsForm : Form
 
         var previewPanel = new Panel { Dock = DockStyle.Fill, Padding = new Padding(10) };
         productPicture = new PictureBox { Dock = DockStyle.Top, Height = 260, SizeMode = PictureBoxSizeMode.Zoom };
+        productPicture.Image = UiTheme.LoadAsset(UiTheme.PlaceholderImage);
         productInfoLabel = new Label { Dock = DockStyle.Fill, AutoSize = false };
         previewPanel.Controls.Add(productInfoLabel);
         previewPanel.Controls.Add(productPicture);
@@ -184,6 +220,34 @@ public class ProductsForm : Form
 
         ordersButton.Visible = _session.IsAdmin || _session.IsManager;
         actionPanel.Visible = _session.IsAdmin;
+    }
+
+    private static Control MakeFilterGroup(string text, Control control, int width, int rightMargin = 28)
+    {
+        var group = new TableLayoutPanel
+        {
+            RowCount = 2,
+            ColumnCount = 1,
+            AutoSize = true,
+            AutoSizeMode = AutoSizeMode.GrowAndShrink,
+            Margin = new Padding(0, 0, rightMargin, 0),
+            MinimumSize = new Size(width, 0)
+        };
+        group.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+        group.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+
+        var label = new Label { Text = text, AutoSize = true, Margin = new Padding(0, 0, 0, 4) };
+        group.Controls.Add(label, 0, 0);
+
+        control.Margin = new Padding(0);
+        control.Width = width;
+        if (control is FlowLayoutPanel flow)
+        {
+            flow.MinimumSize = new Size(width, 0);
+        }
+        group.Controls.Add(control, 0, 1);
+
+        return group;
     }
 
     private void ClearFilters()
@@ -325,17 +389,13 @@ public class ProductsForm : Form
         if (productsGrid.CurrentRow == null) return;
         var photo = productsGrid.CurrentRow.Cells["Фото"].Value?.ToString();
         productInfoLabel.Text = string.Empty;
-        if (!string.IsNullOrWhiteSpace(photo))
+        var img = !string.IsNullOrWhiteSpace(photo) ? UiTheme.LoadAsset(photo) : null;
+        if (img == null)
         {
-            var img = UiTheme.LoadAsset(photo);
-            productPicture.Image?.Dispose();
-            productPicture.Image = img;
+            img = UiTheme.LoadAsset(UiTheme.PlaceholderImage);
         }
-        else
-        {
-            productPicture.Image?.Dispose();
-            productPicture.Image = null;
-        }
+        productPicture.Image?.Dispose();
+        productPicture.Image = img;
 
         var name = productsGrid.CurrentRow.Cells["Наименование"].Value?.ToString();
         var price = productsGrid.CurrentRow.Cells["Цена"].Value?.ToString();
