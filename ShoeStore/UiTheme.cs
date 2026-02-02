@@ -104,16 +104,22 @@ public static class UiTheme
     private static Icon? LoadAppIcon()
     {
         var icon = LoadIcon(AppIcon);
-        if (icon != null)
+        if (icon != null && icon.Width <= 64)
         {
             return icon;
         }
 
+        var smallIcon = LoadIconFromPng("Icon.png", 32);
+        return smallIcon ?? icon;
+    }
+
+    private static Icon? LoadIconFromPng(string fileName, int size)
+    {
         try
         {
-            using var img = LoadAsset("Icon.png");
+            using var img = LoadAsset(fileName);
             if (img == null) return null;
-            using var bmp = new Bitmap(img);
+            using var bmp = new Bitmap(img, new Size(size, size));
             var hicon = bmp.GetHicon();
             var temp = Icon.FromHandle(hicon);
             var clone = (Icon)temp.Clone();

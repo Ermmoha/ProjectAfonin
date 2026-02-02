@@ -168,10 +168,10 @@ public class ProductsForm : Form
         filterLayout.Controls.Add(row2, 0, 1);
         filterPanel.Controls.Add(filterLayout);
 
-        actionPanel = new Panel { Dock = DockStyle.Top, Height = 46 };
-        addButton = new Button { Text = "Добавить", Location = new Point(20, 6), Size = new Size(110, 30) };
-        editButton = new Button { Text = "Редактировать", Location = new Point(140, 6), Size = new Size(140, 30) };
-        deleteButton = new Button { Text = "Удалить", Location = new Point(290, 6), Size = new Size(110, 30) };
+        actionPanel = new Panel { Dock = DockStyle.Top, Height = 44 };
+        addButton = new Button { Text = "Добавить", Location = new Point(20, 4), Size = new Size(110, 30) };
+        editButton = new Button { Text = "Редактировать", Location = new Point(140, 4), Size = new Size(140, 30) };
+        deleteButton = new Button { Text = "Удалить", Location = new Point(290, 4), Size = new Size(110, 30) };
         addButton.Click += OnAddProduct;
         editButton.Click += OnEditProduct;
         deleteButton.Click += OnDeleteProduct;
