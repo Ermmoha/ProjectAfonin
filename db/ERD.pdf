@@ -1,0 +1,122 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Length 3416 >>
+stream
+0.7 w
+20 772 165 38 re S
+BT /F1 9 Tf 24 796 Td (Roles) Tj ET
+BT /F1 8 Tf 24 786 Td (PK RoleId) Tj ET
+BT /F1 8 Tf 24 776 Td (Name \\(UQ\\)) Tj ET
+20 662 165 68 re S
+BT /F1 9 Tf 24 716 Td (Users) Tj ET
+BT /F1 8 Tf 24 706 Td (PK UserId) Tj ET
+BT /F1 8 Tf 24 696 Td (FullName) Tj ET
+BT /F1 8 Tf 24 686 Td (Login \\(UQ\\)) Tj ET
+BT /F1 8 Tf 24 676 Td (Password) Tj ET
+BT /F1 8 Tf 24 666 Td (FK RoleId) Tj ET
+210 722 165 88 re S
+BT /F1 9 Tf 214 796 Td (Orders) Tj ET
+BT /F1 8 Tf 214 786 Td (PK OrderNumber) Tj ET
+BT /F1 8 Tf 214 776 Td (OrderDate) Tj ET
+BT /F1 8 Tf 214 766 Td (DeliveryDate) Tj ET
+BT /F1 8 Tf 214 756 Td (FK PickupPointId) Tj ET
+BT /F1 8 Tf 214 746 Td (FK CustomerId) Tj ET
+BT /F1 8 Tf 214 736 Td (PickupCode) Tj ET
+BT /F1 8 Tf 214 726 Td (FK StatusId) Tj ET
+210 572 165 78 re S
+BT /F1 9 Tf 214 636 Td (OrderItems) Tj ET
+BT /F1 8 Tf 214 626 Td (PK \\(OrderNumber, Article\\)) Tj ET
+BT /F1 8 Tf 214 616 Td (FK OrderNumber) Tj ET
+BT /F1 8 Tf 214 606 Td (FK Article) Tj ET
+BT /F1 8 Tf 214 596 Td (Quantity) Tj ET
+BT /F1 8 Tf 214 586 Td (UnitPrice) Tj ET
+BT /F1 8 Tf 214 576 Td (DiscountPercent) Tj ET
+210 482 165 38 re S
+BT /F1 9 Tf 214 506 Td (OrderStatuses) Tj ET
+BT /F1 8 Tf 214 496 Td (PK StatusId) Tj ET
+BT /F1 8 Tf 214 486 Td (Name \\(UQ\\)) Tj ET
+210 382 165 68 re S
+BT /F1 9 Tf 214 436 Td (PickupPoints) Tj ET
+BT /F1 8 Tf 214 426 Td (PK PickupPointId) Tj ET
+BT /F1 8 Tf 214 416 Td (PostalCode) Tj ET
+BT /F1 8 Tf 214 406 Td (City) Tj ET
+BT /F1 8 Tf 214 396 Td (Street) Tj ET
+BT /F1 8 Tf 214 386 Td (House) Tj ET
+400 692 165 118 re S
+BT /F1 9 Tf 404 796 Td (Products) Tj ET
+BT /F1 8 Tf 404 786 Td (PK Article) Tj ET
+BT /F1 8 Tf 404 776 Td (Name) Tj ET
+BT /F1 8 Tf 404 766 Td (FK UnitId) Tj ET
+BT /F1 8 Tf 404 756 Td (Price) Tj ET
+BT /F1 8 Tf 404 746 Td (FK SupplierId) Tj ET
+BT /F1 8 Tf 404 736 Td (FK ManufacturerId) Tj ET
+BT /F1 8 Tf 404 726 Td (FK CategoryId) Tj ET
+BT /F1 8 Tf 404 716 Td (DiscountPercent) Tj ET
+BT /F1 8 Tf 404 706 Td (Description) Tj ET
+BT /F1 8 Tf 404 696 Td (Photo) Tj ET
+400 572 165 38 re S
+BT /F1 9 Tf 404 596 Td (Categories) Tj ET
+BT /F1 8 Tf 404 586 Td (PK CategoryId) Tj ET
+BT /F1 8 Tf 404 576 Td (Name \\(UQ\\)) Tj ET
+400 502 165 38 re S
+BT /F1 9 Tf 404 526 Td (Suppliers) Tj ET
+BT /F1 8 Tf 404 516 Td (PK SupplierId) Tj ET
+BT /F1 8 Tf 404 506 Td (Name \\(UQ\\)) Tj ET
+400 432 165 38 re S
+BT /F1 9 Tf 404 456 Td (Manufacturers) Tj ET
+BT /F1 8 Tf 404 446 Td (PK ManufacturerId) Tj ET
+BT /F1 8 Tf 404 436 Td (Name \\(UQ\\)) Tj ET
+400 362 165 38 re S
+BT /F1 9 Tf 404 386 Td (Units) Tj ET
+BT /F1 8 Tf 404 376 Td (PK UnitId) Tj ET
+BT /F1 8 Tf 404 366 Td (Name \\(UQ\\)) Tj ET
+400 292 165 38 re S
+BT /F1 9 Tf 404 316 Td (Warehouses) Tj ET
+BT /F1 8 Tf 404 306 Td (PK WarehouseId) Tj ET
+BT /F1 8 Tf 404 296 Td (Name \\(UQ\\)) Tj ET
+400 192 165 58 re S
+BT /F1 9 Tf 404 236 Td (Stock) Tj ET
+BT /F1 8 Tf 404 226 Td (PK \\(WarehouseId, Article\\)) Tj ET
+BT /F1 8 Tf 404 216 Td (FK WarehouseId) Tj ET
+BT /F1 8 Tf 404 206 Td (FK Article) Tj ET
+BT /F1 8 Tf 404 196 Td (Quantity) Tj ET
+102.5 696 m 102.5 791 l S
+292.5 766 m 102.5 696 l S
+292.5 766 m 292.5 416 l S
+292.5 766 m 292.5 501 l S
+292.5 611 m 292.5 766 l S
+292.5 611 m 482.5 751 l S
+482.5 751 m 482.5 381 l S
+482.5 751 m 482.5 521 l S
+482.5 751 m 482.5 451 l S
+482.5 751 m 482.5 591 l S
+482.5 221 m 482.5 311 l S
+482.5 221 m 482.5 751 l S
+
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000000311 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+3779
+%%EOF
