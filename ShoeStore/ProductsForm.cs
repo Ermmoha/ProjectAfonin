@@ -11,6 +11,7 @@ public class ProductsForm : Form
 
     private Panel headerPanel = null!;
     private FlowLayoutPanel headerActionsPanel = null!;
+    private FlowLayoutPanel headerUserActionsPanel = null!;
     private Label titleLabel = null!;
     private Label userLabel = null!;
     private Button logoutButton = null!;
@@ -63,7 +64,7 @@ public class ProductsForm : Form
         StartPosition = FormStartPosition.CenterScreen;
         ClientSize = new Size(1200, 720);
 
-        headerPanel = new Panel { Dock = DockStyle.Top, Height = 96, Padding = new Padding(16, 8, 16, 8) };
+        headerPanel = new Panel { Dock = DockStyle.Top, Height = 120, Padding = new Padding(16, 8, 16, 8) };
         headerPanel.SizeChanged += (_, _) => PositionHeaderActions();
 
         titleLabel = new Label
@@ -83,11 +84,12 @@ public class ProductsForm : Form
         var headerLeftPanel = new TableLayoutPanel
         {
             ColumnCount = 1,
-            RowCount = 2,
+            RowCount = 3,
             AutoSize = true,
             AutoSizeMode = AutoSizeMode.GrowAndShrink,
             Location = new Point(headerPanel.Padding.Left, headerPanel.Padding.Top)
         };
+        headerLeftPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
         headerLeftPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
         headerLeftPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
         headerLeftPanel.Controls.Add(titleLabel, 0, 0);
@@ -107,6 +109,18 @@ public class ProductsForm : Form
         };
         refreshButton.Click += (_, _) => LoadProducts();
 
+        headerUserActionsPanel = new FlowLayoutPanel
+        {
+            FlowDirection = FlowDirection.LeftToRight,
+            WrapContents = false,
+            AutoSize = true,
+            AutoSizeMode = AutoSizeMode.GrowAndShrink,
+            Margin = new Padding(4, 6, 4, 0)
+        };
+        headerUserActionsPanel.Controls.Add(ordersButton);
+        headerUserActionsPanel.Controls.Add(refreshButton);
+        headerLeftPanel.Controls.Add(headerUserActionsPanel, 0, 2);
+
         headerActionsPanel = new FlowLayoutPanel
         {
             FlowDirection = FlowDirection.LeftToRight,
@@ -115,8 +129,6 @@ public class ProductsForm : Form
             AutoSizeMode = AutoSizeMode.GrowAndShrink,
             Margin = new Padding(0)
         };
-        headerActionsPanel.Controls.Add(ordersButton);
-        headerActionsPanel.Controls.Add(refreshButton);
 
         logoutButton = new Button
         {
