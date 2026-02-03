@@ -47,8 +47,25 @@ public partial class LoginForm : Form
     private void OpenProducts(UserSession session)
     {
         Hide();
-        var form = new ProductsForm(session);
-        form.FormClosed += (_, _) => Close();
+        var form = new ProductsForm(session, this);
+        form.FormClosed += (_, _) =>
+        {
+            if (!Visible)
+            {
+                Close();
+                return;
+            }
+
+            Activate();
+        };
         form.Show();
+    }
+
+    public void ShowForLogout()
+    {
+        errorLabel.Text = string.Empty;
+        passwordTextBox.Text = string.Empty;
+        Show();
+        Activate();
     }
 }

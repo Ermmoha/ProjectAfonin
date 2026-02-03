@@ -7,10 +7,13 @@ namespace ShoeStore;
 public class ProductsForm : Form
 {
     private readonly UserSession _session;
+    private readonly LoginForm _loginForm;
 
     private Panel headerPanel = null!;
+    private FlowLayoutPanel headerActionsPanel = null!;
     private Label titleLabel = null!;
     private Label userLabel = null!;
+    private Button logoutButton = null!;
     private Button ordersButton = null!;
     private Button refreshButton = null!;
 
@@ -33,9 +36,10 @@ public class ProductsForm : Form
     private PictureBox productPicture = null!;
     private Label productInfoLabel = null!;
 
-    public ProductsForm(UserSession session)
+    public ProductsForm(UserSession session, LoginForm loginForm)
     {
         _session = session;
+        _loginForm = loginForm;
         UiTheme.Apply(this);
         InitializeComponent();
         UiTheme.StyleHeader(headerPanel);
@@ -43,6 +47,7 @@ public class ProductsForm : Form
         UiTheme.StyleAccent(clearFilterButton);
         UiTheme.StyleAccent(refreshButton);
         UiTheme.StyleAccent(ordersButton);
+        UiTheme.StyleAccent(logoutButton);
         UiTheme.StyleAccent(addButton);
         UiTheme.StyleAccent(editButton);
         UiTheme.StyleAccent(deleteButton);
@@ -58,41 +63,72 @@ public class ProductsForm : Form
         StartPosition = FormStartPosition.CenterScreen;
         ClientSize = new Size(1200, 720);
 
-        headerPanel = new Panel { Dock = DockStyle.Top, Height = 70 };
+        headerPanel = new Panel { Dock = DockStyle.Top, Height = 96, Padding = new Padding(16, 8, 16, 8) };
+        headerPanel.SizeChanged += (_, _) => PositionHeaderActions();
+
         titleLabel = new Label
         {
             Text = "Каталог товаров",
             AutoSize = true,
             Font = UiTheme.TitleFont,
-            Location = new Point(20, 18)
+            Margin = new Padding(4, 6, 4, 0)
         };
+
         userLabel = new Label
         {
             AutoSize = true,
-            Location = new Point(20, 45)
+            Margin = new Padding(4, 0, 4, 0)
         };
+
+        var headerLeftPanel = new TableLayoutPanel
+        {
+            ColumnCount = 1,
+            RowCount = 2,
+            AutoSize = true,
+            AutoSizeMode = AutoSizeMode.GrowAndShrink,
+            Location = new Point(headerPanel.Padding.Left, headerPanel.Padding.Top)
+        };
+        headerLeftPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+        headerLeftPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+        headerLeftPanel.Controls.Add(titleLabel, 0, 0);
+        headerLeftPanel.Controls.Add(userLabel, 0, 1);
+
         ordersButton = new Button
         {
             Text = "Заказы",
-            Size = new Size(110, 30),
-            Location = new Point(980, 20),
-            Anchor = AnchorStyles.Top | AnchorStyles.Right
+            Size = new Size(110, 30)
         };
         ordersButton.Click += OnOrdersClick;
 
         refreshButton = new Button
         {
             Text = "Обновить",
-            Size = new Size(110, 30),
-            Location = new Point(1100, 20),
-            Anchor = AnchorStyles.Top | AnchorStyles.Right
+            Size = new Size(110, 30)
         };
         refreshButton.Click += (_, _) => LoadProducts();
 
-        headerPanel.Controls.Add(titleLabel);
-        headerPanel.Controls.Add(userLabel);
-        headerPanel.Controls.Add(ordersButton);
-        headerPanel.Controls.Add(refreshButton);
+        headerActionsPanel = new FlowLayoutPanel
+        {
+            FlowDirection = FlowDirection.LeftToRight,
+            WrapContents = false,
+            AutoSize = true,
+            AutoSizeMode = AutoSizeMode.GrowAndShrink,
+            Margin = new Padding(0)
+        };
+        headerActionsPanel.Controls.Add(ordersButton);
+        headerActionsPanel.Controls.Add(refreshButton);
+
+        logoutButton = new Button
+        {
+            Text = "Выйти",
+            Size = new Size(110, 30),
+            Margin = new Padding(0)
+        };
+        logoutButton.Click += OnLogoutClick;
+        headerActionsPanel.Controls.Add(logoutButton);
+
+        headerPanel.Controls.Add(headerLeftPanel);
+        headerPanel.Controls.Add(headerActionsPanel);
 
         filterPanel = new Panel
         {
@@ -215,11 +251,24 @@ public class ProductsForm : Form
     private void ApplyRoleVisibility()
     {
         userLabel.Text = $"Пользователь: {_session.FullName} ({_session.RoleName})";
+        logoutButton.Text = _session.IsGuest ? "Назад" : "Выйти";
         var canFilter = _session.IsAdmin || _session.IsManager;
         filterPanel.Visible = canFilter;
 
         ordersButton.Visible = _session.IsAdmin || _session.IsManager;
         actionPanel.Visible = _session.IsAdmin;
+        PositionHeaderActions();
+    }
+
+    private void PositionHeaderActions()
+    {
+        if (headerActionsPanel == null || headerPanel == null) return;
+        var padding = headerPanel.Padding;
+        var innerWidth = headerPanel.ClientSize.Width - padding.Left - padding.Right;
+        var innerHeight = headerPanel.ClientSize.Height - padding.Top - padding.Bottom;
+        var x = padding.Left + Math.Max(0, innerWidth - headerActionsPanel.Width);
+        var y = padding.Top + Math.Max(0, (innerHeight - headerActionsPanel.Height) / 2);
+        headerActionsPanel.Location = new Point(x, y);
     }
 
     private static Control MakeFilterGroup(string text, Control control, int width, int rightMargin = 28)
@@ -408,6 +457,12 @@ public class ProductsForm : Form
     {
         var form = new OrdersForm(_session);
         form.ShowDialog(this);
+    }
+
+    private void OnLogoutClick(object? sender, EventArgs e)
+    {
+        _loginForm.ShowForLogout();
+        Close();
     }
 
     private void OnAddProduct(object? sender, EventArgs e)
